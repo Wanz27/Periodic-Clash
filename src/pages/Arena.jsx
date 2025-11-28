@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../config/supabaseClient";
-import "../pages/arena.css";
+import "../pages/Arena.css";
 
 function PauseMenu({ onClose, onExit }) {
   // Modal popup centered
