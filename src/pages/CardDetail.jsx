@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../config/supabaseClient";
 import { useToast } from "../components/ToastProvider";
-import "../pages/cardDetail.css";
+import "../pages/CardDetail.css";
 
 export default function CardDetail() {
   const { id } = useParams();
