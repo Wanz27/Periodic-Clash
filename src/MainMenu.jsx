@@ -79,10 +79,10 @@ function FAQItem({ q, a }) {
 
 export default function MainMenu() {
   const cards = [
-    { title: "Mode Duel", text: "Bertarung 1v1 melawan teman atau AI. Gunakan reaksi & strategi untuk menang." },
-    { title: "Mode Adventure", text: "Jelajahi misi edukatif — puzzle reaksi untuk naik level." },
+    { title: "Mode Duel", text: "Bertarung dengan Boss menggunakan deck unsur yang disediakan. Gunakan reaksi & strategi untuk memenangkan permainan." },
+    { title: "Pelajari Unsur Dasar", text: "Jelajahi misi edukatif — puzzle reaksi untuk naik level." },
     { title: "Koleksi Kartu", text: "Kumpulkan unsur dari tabel periodik, tingkatkan rarity, dan buat deck epik." },
-    { title: "Latihan Cepat", text: "Mini-quiz terintegrasi untuk menguji pemahaman di sela-sela permainan." },
+    { title: "Latihan Cepat", text: "latihan tapi cepet wkwk" },
   ];
 
   return (
@@ -184,14 +184,14 @@ export default function MainMenu() {
           >
             {[
               {
-                id: "materi",
+                id: "learn",
                 title: "Materi",
                 desc: "Pelajari konsep kimia dasar & tabel periodik lewat modul singkat dengan ilustrasi dan contoh.",
                 cta: "Buka Materi",
                 image: act1,
               },
               {
-                id: "latihan",
+                id: "cards",
                 title: "Latihan",
                 desc: "Kerjakan soal singkat & kuis interaktif untuk menguatkan pemahaman (nilai & feedback instan).",
                 cta: "Mulai Latihan",
