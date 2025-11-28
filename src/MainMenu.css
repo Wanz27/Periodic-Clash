@@ -1,0 +1,435 @@
+/* -------------------------
+   0. Global responsive variables + safe-area
+-------------------------- */
+
+:root{
+  --max-container: 1100px;
+  --gutter: 1rem;
+  --bn-height: 68px; /* keep in sync with BottomNav */
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+/* fluid typography */
+html { font-size: 16px; }
+h1 { font-size: clamp(1.6rem, 2.4vw + 1rem, 3.2rem); }
+p  { font-size: clamp(0.95rem, 1.6vw, 1.1rem); }
+
+/* utility */
+.container { max-width: var(--max-container); margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+
+
+/* -------------------------
+   1. COLOR VARIABLES
+-------------------------- */
+:root {
+  --primary-900: #000b58; /* biru tua */
+  --primary-700: #003161; /* deep ocean blue */
+  --accent-600: #006a67;   /* teal */
+  --accent-400: #0f8a85;   /* light teal */
+  --muted-200: #fdebb9;    /* cream */
+  --glass: rgba(255, 255, 255, 0.06);
+}
+
+/* -------------------------
+   2. BASE SETUP
+-------------------------- */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--primary-900);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* -------------------------
+   3. ROOT WRAPPER
+-------------------------- */
+
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    180deg,
+    var(--primary-900) 0%, 
+    var(--primary-700) 40%, 
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  color: white;
+  padding-bottom: calc(var(--bn-height, 72px) +  var(--safe-bottom) + 12px);
+}
+
+/* -------------------------
+   4. HERO SECTION
+-------------------------- */
+
+.hero {
+  padding: clamp(1.2rem, 3vw, 4rem) 1rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* HERO TWO-COLUMN LAYOUT */
+.hero-content {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 1.25rem;
+}
+
+/* LEFT SIDE TEXT */
+.hero-left {
+  flex: 1; 
+  min-width: 0;
+}
+
+/* Bigger, premium-looking title */
+.hero-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--muted-200);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.03em;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+/* Bigger subtitle */
+.hero-sub {
+  font-size: 1.35rem;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.92);
+  margin-bottom: 1.4rem;
+}
+
+/* RIGHT SIDE IMAGE */
+.hero-image-slot {
+  width: 320px; 
+  flex-shrink: 0;
+}
+
+.image-box {
+  width: 320px;
+  height: 420px;
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(6px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* optional image styling */
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* -------------------------
+   5. CTA BUTTONS
+-------------------------- */
+
+.cta-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.btn {
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+}
+
+.btn.primary {
+  background: linear-gradient(90deg, var(--accent-600), var(--accent-400));
+  box-shadow: 0 8px 30px rgba(0,106,103,0.25);
+  color: white;
+}
+
+.btn.ghost {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.95);
+}
+
+/* -------------------------
+   6. CONTENT SECTIONS
+-------------------------- */
+
+.container {
+  max-width: 1100px;
+  margin: -40px auto 2rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 0;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  padding: 1.2rem;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+}
+
+.card h3 { margin: 0 0 0.4rem 0; }
+.card p { margin: 0; color: rgba(255,255,255,0.85); }
+
+.panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding: 1.2rem;
+  border-radius: 14px;
+}
+
+/* ============================
+   FAQ (accordion) styles
+   ============================ */
+
+.faq-panel {
+  padding: 1rem;
+  overflow: visible;
+}
+
+.faq-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.faq-title-group h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--muted-200);
+}
+
+.faq-title-group .muted {
+  margin: 0.35rem 0 0;
+  color: rgba(255,255,255,0.78);
+  font-size: 0.95rem;
+}
+
+/* small accent box showing the palette image */
+.faq-accent {
+  width: 68px;
+  height: 68px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+  flex-shrink: 0;
+}
+
+/* list */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* item */
+.faq-item {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.45);
+}
+
+/* question button */
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.95rem 1rem;
+  background: transparent;
+  color: rgba(255,255,255,0.95);
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.faq-question:hover { background: rgba(255,255,255,0.02); }
+
+/* chevron */
+.faq-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  color: var(--muted-200);
+  font-weight: 900;
+  transform-origin: center;
+}
+
+/* answer wrapper (animated height) */
+.faq-answer-wrap {
+  overflow: hidden;
+}
+
+/* answer content */
+.faq-answer {
+  padding: 0.9rem 1rem 1.25rem 1rem;
+  color: rgba(255,255,255,0.88);
+  font-size: 0.97rem;
+  line-height: 1.5;
+  border-top: 1px dashed rgba(255,255,255,0.03);
+}
+
+/* small adjustments for lists inside answers */
+.faq-answer ul { margin: 0; padding-left: 1.0rem; }
+
+@media (max-width: 900px) {
+  .faq-header { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+  .faq-accent { width: 56px; height: 56px; }
+  .hero-content { flex-direction: column; text-align: center; padding: 0; }
+  .hero-image-slot { width: 260px; height: auto; }
+  .hero-left { order: 2; }
+  .hero-image-slot { order: 1; }
+}
+
+.quick-cards {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.chip {
+  background: var(--glass);
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  color: rgba(255,255,255,0.95);
+  font-weight: 600;
+}
+
+.quests { margin: 0; padding-left: 1.1rem; }
+.quests li { margin-bottom: 0.6rem; }
+
+/* -------------------------
+   7. FOOTER
+-------------------------- */
+
+.footer {
+  margin-top: auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: rgba(255,255,255,0.6);
+}
+
+.meta-links a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+}
+
+/* -------------------------
+   8. HOVER EFFECTS
+-------------------------- */
+
+.card:hover {
+  transform: translateY(-6px);
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1);
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px);
+  transition: transform 150ms;
+}
+
+/* -------------------------
+   9. RESPONSIVE
+-------------------------- */
+
+@media (max-width: 640px) {
+  .hero-title { font-size: 1.6rem; }
+  .hero { padding: 2.4rem; }
+  .container { margin-top: -20px; }
+}
+
+/* small phones: reduce hero image */
+@media (max-width: 420px) {
+  .hero { padding: 1.2rem 0.8rem; }
+  .hero-image-slot { width: 200px; height: auto; border-radius: 16px; }
+  .hero-title { font-size: clamp(1.4rem, 6vw, 2.2rem); }
+  .hero-sub { font-size: 0.95rem; }
+}
+
+/* smoother transform */
+.card, .btn {
+  will-change: transform, opacity;
+}
+
+.card {
+  transform-origin: center;
+}
+
+.cta-row .btn {
+  transition: transform 160ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .hero-left {
+    max-width: 90%;
+  }
+
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+  }
+
+  .image-box {
+    width: 260px;
+    height: 350px;
+  }
+}
+
+/* Responsive switch: desktop shows header, mobile/tablet shows bottom nav */
+@media (min-width: 900px) {
+  /* Desktop & large tablet in landscape */
+  .pc-header { display: flex !important; }     /* pastikan header tampil */
+  .bottom-nav { display: none !important; }     /* hide bottom nav on desktop */
+}
+
+@media (max-width: 899px) {
+  /* Phones and small tablets */
+  .pc-header { display: none !important; }      /* hide header on mobile/ipad */
+  .bottom-nav { display: flex !important; }     /* show bottom nav on mobile */
+}

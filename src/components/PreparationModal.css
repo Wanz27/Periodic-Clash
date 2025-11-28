@@ -1,0 +1,339 @@
+/* src/components/PreparationModal.css */
+
+/* -----------------------
+   BASE / DESKTOP STYLE
+   ----------------------- */
+
+:root{
+  --panel-bg: #071a3d; /* deep navy */
+  --panel-radius: 22px;
+  --accent: #0f8a85;
+  --muted: rgba(255,255,255,0.85);
+  --glass: rgba(255,255,255,0.03);
+}
+
+/* overlay full-screen */
+.prep-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55); /* lebih gelap agar fokus ke modal */
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 40px;
+  z-index: 2000;
+}
+
+/* panel */
+/* PANEL UTAMA POPUP */
+.prep-panel {
+  width: 95%;
+  max-width: 980px;
+  border-radius: 26px;
+
+  /* HAPUS GLASS */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  /* WARNA BARU – SOLID sesuai palette */
+  background: #071c3b; /* navy gelap */
+  border: 1px solid rgba(255,255,255,0.06);
+
+  padding: 32px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+/* inner scrollable area that contains left+right and actions */
+.prep-grid {
+  display: block; /* wrapper */
+  width: 100%;
+  height: 100%;
+}
+
+/* make left+right a grid inside the scroll wrapper */
+.prep-inner-scroll {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 28px;
+  padding: 28px;
+  box-sizing: border-box;
+  max-height: calc(88vh - 86px); /* leave room for actions (buttons) */
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* LEFT column: image & badge */
+.prep-left {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:flex-start;
+}
+
+/* small round symbol badge */
+.symbol-badge {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  color: var(--muted);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 800;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* main image - will scroll with container */
+.prep-image {
+  width: 100%;
+  height: 360px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: inset 0 2px 18px rgba(0,0,0,0.45);
+}
+
+/* RIGHT column: content */
+.prep-right {
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  min-width:0;
+}
+
+/* header row */
+.prep-header-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.prep-name {
+  margin:0;
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  color: white;
+  font-weight: 800;
+}
+
+.prep-symbol {
+  display:block;
+  color: rgba(255,255,255,0.75);
+  margin-top:6px;
+}
+
+/* rarity / difficulty badge */
+.rarity-badge {
+  background: linear-gradient(180deg,#0f8a85,#006a67);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-weight:700;
+  box-shadow: 0 8px 20px rgba(15,138,133,0.12);
+}
+
+/* stats row */
+.prep-stats-row {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.pill {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight:700;
+  color: rgba(255,255,255,0.95);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* difficulty bar */
+.difficulty-wrapper { margin-left:auto; min-width:220px; }
+.diff-label { display:block; font-size:0.85rem; color:rgba(255,255,255,0.8); margin-bottom:6px; }
+.diff-bar {
+  height: 10px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px;
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,0.02);
+}
+.diff-fill {
+  height:100%;
+  background: #15b79f;
+  width: 30%;
+  transition: width 420ms ease;
+}
+
+/* description */
+.prep-desc {
+  color: rgba(255,255,255,0.88);
+  line-height: 1.5;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+/* boxed sections for skills / powerups */
+.prep-box {
+  background: #0c274c;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 20px 26px;
+  margin-top: 20px;
+}
+
+.skill-row {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 6px;
+  align-items:center;
+  border-bottom: 1px dashed rgba(255,255,255,0.03);
+}
+.skill-row:last-child { border-bottom: none; }
+
+.skill-name {
+  font-weight: 800;
+  color: rgba(255,255,255,0.95);
+}
+.skill-effect {
+  color: rgba(255,255,255,0.86);
+  max-width: 60%;
+  text-align: right;
+  font-weight: 600;
+}
+
+/* actions (buttons) - placed after inner scroll; but sticky inside scroll */
+.prep-actions {
+  /* card-like wrapper */
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;      /* tombol tersusun di tengah */
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(90deg,transparent, transparent); /* solid navy-blue */
+  box-shadow: 0 10px 30px rgba(2,8,25,0.55);
+  margin-top: 20px;
+
+  width: 100%;
+  max-width: 620px;             /* batasi lebar container supaya tombol tidak melar */
+  box-sizing: border-box;
+}
+
+/* make buttons equal width and centered inside wrapper */
+.prep-actions .btn-large {
+  flex: 1 1 0;                  /* share space equally */
+  min-width: 140px;             /* readable min size */
+  max-width: 320px;             /* avoid insane expansion on very wide screens */
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 8px 18px rgba(2,8,25,0.45);
+}
+
+/* primary / ghost visual */
+.prep-actions .btn-large.primary {
+  background: linear-gradient(180deg,#0fb088,#0a9a76); /* greenish */
+  color: #fff;
+  border: 0;
+}
+
+.prep-actions .btn-large.ghost {
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* subtle hover */
+.prep-actions .btn-large:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(2,8,25,0.55); }
+
+
+/* ensure that inner content stacks nicely when narrow so text wraps */
+.prep-right { min-width: 0; }
+
+/* -----------------------
+   MOBILE / TABLET (<900px)
+   ----------------------- */
+@media (max-width: 900px) {
+  .prep-panel {
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 20px);
+    border-radius: 14px;
+    margin: 10px;
+  }
+
+  .prep-inner-scroll {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 16px;
+    max-height: calc(100vh - 136px); /* keep room for sticky actions below */
+    overflow-y: auto;
+  }
+
+  .prep-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .symbol-badge { position: relative; z-index: 2; }
+
+  .prep-header-top {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .rarity-badge { padding: 8px 12px; font-size: 0.85rem; }
+
+  .difficulty-wrapper { min-width: 0; margin-left: 0; }
+
+  .skill-effect { max-width: 100%; text-align: left; }
+
+  /* make action bar sticky at bottom of modal */
+    .prep-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 18px 22px;
+        background: #2373ff;
+        border-radius: 18px;             
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+
+        /* Optional: biar ikut scroll */
+        backdrop-filter: blur(8px);
+    }
+
+  .btn-large { flex: 1; min-width: 0; padding: 12px; font-size: 1rem; }
+}
+
+@media (max-width: 720px) {
+  .prep-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px;
+    max-width: 100%;
+  }
+
+  .prep-actions .btn-large {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    padding: 12px 18px;
+  }
+}
+
+
+/* small-screen polish: keep scrollbars thin on webkit */
+.prep-inner-scroll::-webkit-scrollbar { width: 9px; }
+.prep-inner-scroll::-webkit-scrollbar-track { background: transparent; }
+.prep-inner-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
