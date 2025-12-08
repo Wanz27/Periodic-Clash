@@ -39,7 +39,7 @@ export default function Games() {
   return (
     <main className="games-page container">
       <header className="games-header">
-        <h2>Boss Encounters</h2>
+        <h1>Boss Encounters</h1>
         <p className="muted">Pilih boss untuk melihat strategi dan persiapan. Difficulty menunjukkan tingkat tantangan.</p>
       </header>
 

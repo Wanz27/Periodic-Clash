@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 
 // gunakan path file palet yang sudah diupload
 const paletteImage = "/mnt/data/9f985eae-5333-462e-a0e3-fe3d221db9b9.png";
-const act1 = "/act1.jpg";
-const act2 = "/act2.jpg";
-const act3 = "/act3.jpg";
+const act1 = "/info.png";
+const act2 = "/card.png";
+const act3 = "/swords.png";
 
 const heroVariants = {
   hidden: { opacity: 0, y: -40 },
@@ -78,13 +78,6 @@ function FAQItem({ q, a }) {
 }
 
 export default function MainMenu() {
-  const cards = [
-    { title: "Mode Duel", text: "Bertarung dengan Boss menggunakan deck unsur yang disediakan. Gunakan reaksi & strategi untuk memenangkan permainan." },
-    { title: "Pelajari Unsur Dasar", text: "Jelajahi misi edukatif — puzzle reaksi untuk naik level." },
-    { title: "Koleksi Kartu", text: "Kumpulkan unsur dari tabel periodik, tingkatkan rarity, dan buat deck epik." },
-    { title: "Latihan Cepat", text: "latihan tapi cepet wkwk" },
-  ];
-
   return (
     <div className="app-root">
       {/* HERO */}
@@ -136,7 +129,7 @@ export default function MainMenu() {
               </motion.div>
 
               <motion.div whileHover={{ y: -4 }} whileTap={{ scale: 0.98 }}>
-                <Link className="btn ghost" to="/training">Tantangan</Link>
+                <Link className="btn ghost" to="/games">Tantangan</Link>
               </motion.div>
             </motion.div>
           </motion.div>
@@ -184,24 +177,24 @@ export default function MainMenu() {
           >
             {[
               {
-                id: "learn",
-                title: "Materi",
-                desc: "Pelajari konsep kimia dasar & tabel periodik lewat modul singkat dengan ilustrasi dan contoh.",
-                cta: "Buka Materi",
+                id: "about",
+                title: "About",
+                desc: "Lihat update fitur terbaru dari Periodic Clash.",
+                cta: "About",
                 image: act1,
               },
               {
                 id: "cards",
-                title: "Latihan",
-                desc: "Kerjakan soal singkat & kuis interaktif untuk menguatkan pemahaman (nilai & feedback instan).",
-                cta: "Mulai Latihan",
+                title: "Buat Deck",
+                desc: "Buat deckmu dan buat reaksi antara unsur.",
+                cta: "Lihat Kartu",
                 image: act2,
               },
               {
                 id: "games",
                 title: "Games",
-                desc: "Mode duel & puzzle reaksi — terapkan strategi dengan kartu unsur yang kamu kumpulkan.",
-                cta: "Mainkan Games",
+                desc: "Kalahkan Boss dengan kartu deck yang tersedia.",
+                cta: "Mainkan",
                 image: act3,
               },
             ].map((a) => (
@@ -230,24 +223,12 @@ export default function MainMenu() {
                   </div>
                   <div className="activity-footer">
                     <Link className="btn primary small" to={`/${a.id}`}>{a.cta}</Link>
-                    <button className="btn ghost small" onClick={() => console.log('info', a.id)}>Info</button>
                   </div>
                 </div>
               </motion.article>
             ))}
           </motion.div>
         </motion.section>
-
-
-        {/* Fitur */}
-        <section id="features" className="card-grid" aria-label="Fitur utama">
-          {cards.map((c, i) => (
-            <motion.article key={i} className="card" variants={cardVariants} whileHover="hover">
-              <h3>{c.title}</h3>
-              <p>{c.text}</p>
-            </motion.article>
-          ))}
-        </section>
 
         {/* FAQ */}
         <motion.section
@@ -260,7 +241,7 @@ export default function MainMenu() {
           <div className="faq-header">
             <div className="faq-title-group">
               <h2>FAQ</h2>
-              <p className="muted">Jawaban cepat & panduan tentang fitur utama. Klik untuk membuka setiap pertanyaan.</p>
+              <p className="muted">Pertanyaan umum seputar fitur di Periodic Clash. Klik untuk membuka setiap pertanyaan.</p>
             </div>
           </div>
 
@@ -268,26 +249,18 @@ export default function MainMenu() {
             {[
               {
                 id: "q1",
-                q: "Apa saja Tantangan Hari Ini?",
-                a: (
-                  <div>
-                    <ul style={{ margin: 0, paddingLeft: "1.1rem" }}>
-                      <li>Menangkan 3 duel menggunakan unsur golongan 1</li>
-                      <li>Selesaikan puzzle reaksi H + O → H₂O</li>
-                      <li>Pelajari 5 kartu baru</li>
-                    </ul>
-                  </div>
-                ),
+                q: "Apakah bisa menambahkan kartu deck?",
+                a: "User bisa menambahkan kartu bebas dan mengatur power pus serta reaksi yang diberikan dari kartu unsur tersebut.",
               },
               {
                 id: "q2",
-                q: "Bagaimana cara membuka kartu baru?",
-                a: "Kamu bisa mendapat kartu baru melalui menyelesaikan misi, hadiah kemenangan, atau membuka pack di menu Koleksi Kartu.",
+                q: "Apa itu mode Boss?",
+                a: "Mode Boss adalah mode duel Mode duel reaksi dari kombinasi kartu unsur melawan 1 Boss unsurr. Terapkan strategi dengan kartu unsur yang kamu kumpulkan untuk mengalahkan Boss.",
               },
               {
                 id: "q3",
-                q: "Apa itu mode Adventure?",
-                a: "Mode Adventure adalah rangkaian misi edukatif berlapis yang menantangmu menyelesaikan puzzle reaksi dan skenario kimia dengan kartu yang kamu miliki.",
+                q: "Apakah kartu yang kita tambahkan bisa dimasukkan ke dalam deck pada mode Boss?",
+                a: "Untuk sementara, tidak bisa. Mode Boss hanya bisa dimainkan dengan deck yang tersedia di tiap arena Boss.",
               },
             ].map((item) => (
               <FAQItem key={item.id} q={item.q} a={item.a} />

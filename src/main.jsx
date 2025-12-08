@@ -8,10 +8,12 @@ import App from "./App";
 import MainMenu from "./MainMenu";           // halaman utama
 import CardCatalog from "./pages/CardCatalog";
 import CardDetail from "./pages/CardDetail";
-import SettingPage from "./pages/setting";
+import SettingPage from "./pages/Setting";
 import CardEditPage from "./pages/CardEditPage";
 import Games from "./pages/Games";
 import Arena from "./pages/Arena";
+import Result from "./pages/Result";
+import About from "./pages/About";
 
 import "./index.css";
 
@@ -29,7 +31,10 @@ createRoot(document.getElementById("root")).render(
             <Route path="cards/:id/edit" element={<CardEditPage />} />
             <Route path="settings" element={<SettingPage />} />
             <Route path="games" element={<Games />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/result" element={<Result />} />
             <Route path="games/:slug/arena" element={<Arena />} />
+            
 
             {/* fallback 404 - letakkan terakhir */}
             <Route path="*" element={<MainMenu />} />

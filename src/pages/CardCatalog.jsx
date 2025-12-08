@@ -35,7 +35,7 @@ export default function CardCatalog(){
   return (
     <main className="container">
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', margin:'4rem 0' }}>
-        <h2>Katalog Kartu Unsur</h2>
+        <h1>Katalog Kartu Unsur</h1>
         <button className="btn primary" onClick={()=> setEditing({})}>Tambah Kartu</button>
       </div>
 

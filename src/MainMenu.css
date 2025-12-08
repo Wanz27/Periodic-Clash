@@ -1,38 +1,37 @@
 /* -------------------------
-   0. Global responsive variables + safe-area
--------------------------- */
-
-:root{
-  --max-container: 1100px;
-  --gutter: 1rem;
-  --bn-height: 68px; /* keep in sync with BottomNav */
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-top: env(safe-area-inset-top, 0px);
-}
-
-/* fluid typography */
-html { font-size: 16px; }
-h1 { font-size: clamp(1.6rem, 2.4vw + 1rem, 3.2rem); }
-p  { font-size: clamp(0.95rem, 1.6vw, 1.1rem); }
-
-/* utility */
-.container { max-width: var(--max-container); margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
-
-
-/* -------------------------
-   1. COLOR VARIABLES
+      Global Vars
 -------------------------- */
 :root {
-  --primary-900: #000b58; /* biru tua */
-  --primary-700: #003161; /* deep ocean blue */
-  --accent-600: #006a67;   /* teal */
-  --accent-400: #0f8a85;   /* light teal */
-  --muted-200: #fdebb9;    /* cream */
-  --glass: rgba(255, 255, 255, 0.06);
+  --max-container: 1100px;
+  --gutter: 1rem;
+  --bn-height: 68px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+
+  --primary-900: #000b58;
+  --primary-700: #003161;
+  --accent-600: #006a67;
+  --accent-400: #0f8a85;
+  --muted-200: #fdebb9;
+  --glass: rgba(255,255,255,0.06);
+  --card-bg: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  --section-accent-width: 6px;
+  --section-accent-gap: 12px;
+}
+
+html { font-size: 16px; }
+h1 { font-size: clamp(1.6rem, 2.4vw + 1rem, 3.2rem); }
+p { font-size: clamp(0.95rem, 1.6vw, 1.1rem); }
+
+.container { 
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 /* -------------------------
-   2. BASE SETUP
+      BASE SETUP
 -------------------------- */
 
 html, body {
@@ -45,7 +44,7 @@ html, body {
 }
 
 /* -------------------------
-   3. ROOT WRAPPER
+      ROOT WRAPPER
 -------------------------- */
 
 .app-root {
@@ -63,73 +62,54 @@ html, body {
 }
 
 /* -------------------------
-   4. HERO SECTION
+   HERO
 -------------------------- */
 
 .hero {
   padding: clamp(1.2rem, 3vw, 4rem) 1rem;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
 }
 
-/* HERO TWO-COLUMN LAYOUT */
 .hero-content {
   max-width: var(--max-container);
   margin: 0 auto;
   display: flex;
+  gap: 1.25rem;
+  padding: 0 1rem;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
-  gap: 1.25rem;
 }
 
-/* LEFT SIDE TEXT */
-.hero-left {
-  flex: 1; 
-  min-width: 0;
-}
+.hero-left { flex: 1; }
 
-/* Bigger, premium-looking title */
 .hero-title {
   font-size: 3.2rem;
   font-weight: 800;
   color: var(--muted-200);
   margin-bottom: 0.5rem;
-  letter-spacing: -0.03em;
-  text-shadow: 0 4px 16px rgba(0,0,0,0.4);
 }
 
-/* Bigger subtitle */
 .hero-sub {
   font-size: 1.35rem;
-  line-height: 1.4;
-  color: rgba(255,255,255,0.92);
   margin-bottom: 1.4rem;
+  color: rgba(255,255,255,0.92);
 }
 
-/* RIGHT SIDE IMAGE */
-.hero-image-slot {
-  width: 320px; 
-  flex-shrink: 0;
-}
+.hero-image-slot { width: 320px; flex-shrink: 0; }
 
 .image-box {
   width: 320px;
   height: 420px;
   border-radius: 26px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  background: rgba(255,255,255,0.08);
   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.07);
-  backdrop-filter: blur(6px);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
-/* optional image styling */
 .image-box img {
   width: 100%;
   height: 100%;
@@ -137,7 +117,7 @@ html, body {
 }
 
 /* -------------------------
-   5. CTA BUTTONS
+      BUTTONS
 -------------------------- */
 
 .cta-row {
@@ -169,7 +149,7 @@ html, body {
 }
 
 /* -------------------------
-   6. CONTENT SECTIONS
+      CONTENT SECTIONS
 -------------------------- */
 
 .container {
@@ -193,60 +173,200 @@ html, body {
 .card p { margin: 0; color: rgba(255,255,255,0.85); }
 
 .panel {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  padding: 1.2rem;
-  border-radius: 14px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.activities-panel,
+.faq-panel {
+  padding-top: 0.4rem !important;
+  padding-bottom: 0.4rem !important;
+}
+
+/* -------------------------
+   Activities header
+   ------------------------- */
+
+.activities-header {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* main section title */
+.activities-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--muted-200);
+  display: inline-block;
+  position: relative;
+  padding-left: calc(var(--section-accent-gap) + var(--section-accent-width));
+  letter-spacing: -0.01em;
+}
+
+/* decorative accent bar to the left of the title */
+.activities-header h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--section-accent-width);
+  height: 60%;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--accent-400), var(--accent-600));
+  box-shadow: 0 4px 18px rgba(15,138,133,0.12);
+}
+
+/* subtitle (smaller, muted but legible) */
+.activities-header p {
+  margin: 0;
+  color: rgba(255,255,255,0.88);
+  font-size: 1rem;
+  max-width: 1000px;
+  line-height: 1.4;
 }
 
 /* ============================
-   FAQ (accordion) styles
+   Activities cards
    ============================ */
 
-.faq-panel {
-  padding: 1rem;
-  overflow: visible;
+.activities-grid {
+  display: flex;
+  gap: 1.2rem;
+  align-items: stretch;
+  flex-wrap: wrap;
 }
 
-.faq-header {
+/* card */
+.activity-card {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.8rem;
+  text-align: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  padding: 1.2rem;
+  border-radius: 14px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.03);
+  min-width: 300px;
+  flex: 1 1 300px;
 }
+
+/* thumbnail */
+.activity-thumb {
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 18px;
+  background-size: 50% !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  border: 1px solid rgba(255,255,255,0.04);
+  background-color: white;
+}
+
+/* body */
+.activity-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.activity-top { margin-bottom: 0.6rem; }
+
+.activity-title {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--muted-200);
+  margin-bottom: 0.35rem;
+}
+
+.activity-desc {
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 0.6rem;
+}
+
+/* footer */
+.activity-footer {
+  display: flex;
+  margin-top: auto;
+  justify-content: center;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.activities-grid .btn.ghost.small {
+  display: none !important;
+}
+
+/* small tweak for primary small button */
+.btn.primary.small {
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+/* ============================
+   FAQ header (styled same as activities)
+   ============================ */
 
 .faq-title-group h2 {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  font-weight: 800;
   color: var(--muted-200);
+  display: inline-block;
+  position: relative;
+  padding-left: calc(var(--section-accent-gap) + var(--section-accent-width));
 }
 
+/* same accent bar */
+.faq-title-group h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--section-accent-width);
+  height: 60%;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--accent-400), var(--accent-600));
+  box-shadow: 0 4px 18px rgba(15,138,133,0.12);
+}
+
+/* muted subtitle under FAQ title */
 .faq-title-group .muted {
-  margin: 0.35rem 0 0;
+  margin: 0.25rem 0 0;
   color: rgba(255,255,255,0.78);
   font-size: 0.95rem;
+  max-width: 880px;
+  line-height: 1.35;
 }
 
-/* small accent box showing the palette image */
-.faq-accent {
-  width: 68px;
-  height: 68px;
-  border-radius: 12px;
-  background-size: cover;
-  background-position: center;
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
-  flex-shrink: 0;
+.muted {
+  padding-bottom: 10px;
 }
 
-/* list */
+/* ============================
+   FAQ items (keep present styling)
+   ============================ */
+
 .faq-list {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
 }
 
-/* item */
 .faq-item {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border-radius: 12px;
@@ -255,7 +375,6 @@ html, body {
   box-shadow: 0 10px 22px rgba(0,0,0,0.45);
 }
 
-/* question button */
 .faq-question {
   width: 100%;
   display: flex;
@@ -273,7 +392,6 @@ html, body {
 
 .faq-question:hover { background: rgba(255,255,255,0.02); }
 
-/* chevron */
 .faq-chevron {
   display: inline-flex;
   align-items: center;
@@ -287,12 +405,8 @@ html, body {
   transform-origin: center;
 }
 
-/* answer wrapper (animated height) */
-.faq-answer-wrap {
-  overflow: hidden;
-}
+.faq-answer-wrap { overflow: hidden; }
 
-/* answer content */
 .faq-answer {
   padding: 0.9rem 1rem 1.25rem 1rem;
   color: rgba(255,255,255,0.88);
@@ -301,135 +415,60 @@ html, body {
   border-top: 1px dashed rgba(255,255,255,0.03);
 }
 
-/* small adjustments for lists inside answers */
-.faq-answer ul { margin: 0; padding-left: 1.0rem; }
+/* -------------------------
+   RESPONSIVE
+-------------------------- */
 
 @media (max-width: 900px) {
-  .faq-header { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
-  .faq-accent { width: 56px; height: 56px; }
-  .hero-content { flex-direction: column; text-align: center; padding: 0; }
-  .hero-image-slot { width: 260px; height: auto; }
-  .hero-left { order: 2; }
-  .hero-image-slot { order: 1; }
+  .hero-content { flex-direction: column; text-align: center; padding: 0; gap: 1rem; }
+  .hero-image-slot { width: 260px; }
+  .image-box { width: 260px; height: 350px; }
+  .activity-thumb { width: 120px; height: 100px; }
+  .activities-grid { gap: 1rem; }
+  .cta-row {
+    justify-content: center !important; 
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;                    
+    margin-left: 0;                     
+  }
+  .cta-row .btn {
+    min-width: unset;
+    padding: 0.7rem 1rem;
+  }
 }
-
-.quick-cards {
-  display: flex;
-  gap: 0.6rem;
-  margin-top: 0.6rem;
-}
-
-.chip {
-  background: var(--glass);
-  padding: 0.5rem 0.8rem;
-  border-radius: 10px;
-  color: rgba(255,255,255,0.95);
-  font-weight: 600;
-}
-
-.quests { margin: 0; padding-left: 1.1rem; }
-.quests li { margin-bottom: 0.6rem; }
-
-/* -------------------------
-   7. FOOTER
--------------------------- */
-
-.footer {
-  margin-top: auto;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  color: rgba(255,255,255,0.6);
-}
-
-.meta-links a {
-  color: rgba(255,255,255,0.6);
-  text-decoration: none;
-}
-
-/* -------------------------
-   8. HOVER EFFECTS
--------------------------- */
-
-.card:hover {
-  transform: translateY(-6px);
-  transition: transform 220ms cubic-bezier(.2,.9,.2,1);
-}
-
-.btn.primary:hover {
-  transform: translateY(-2px);
-  transition: transform 150ms;
-}
-
-/* -------------------------
-   9. RESPONSIVE
--------------------------- */
 
 @media (max-width: 640px) {
-  .hero-title { font-size: 1.6rem; }
-  .hero { padding: 2.4rem; }
-  .container { margin-top: -20px; }
-}
+  .hero-title { font-size: 1.8rem; }
+  .activities-grid { flex-direction: column; }
+  .activity-card { min-width: 100%; }
+  .activities-header h2 { font-size: 1.25rem; padding-left: calc(var(--section-accent-gap) + 4px); }
+  .faq-title-group h2 { font-size: 1.25rem; padding-left: calc(var(--section-accent-gap) + 4px); }
+  .cta-row {
+    flex-direction: row !important;   
+    justify-content: center !important;
+    align-items: center;
+    gap: 0.4rem;                    
+    flex-wrap: wrap;                
+  }
 
-/* small phones: reduce hero image */
-@media (max-width: 420px) {
-  .hero { padding: 1.2rem 0.8rem; }
-  .hero-image-slot { width: 200px; height: auto; border-radius: 16px; }
-  .hero-title { font-size: clamp(1.4rem, 6vw, 2.2rem); }
-  .hero-sub { font-size: 0.95rem; }
-}
-
-/* smoother transform */
-.card, .btn {
-  will-change: transform, opacity;
-}
-
-.card {
-  transform-origin: center;
-}
-
-.cta-row .btn {
-  transition: transform 160ms cubic-bezier(.2,.9,.2,1);
-}
-
-/* Mobile responsive */
-@media (max-width: 900px) {
-  .hero-content {
-    flex-direction: column;
+  .cta-row .btn {
+    width: auto;                    
+    min-width: 90px;                  
     text-align: center;
-    gap: 1.5rem;
-  }
-
-  .hero-left {
-    max-width: 90%;
-  }
-
-  .hero-title {
-    font-size: 2.4rem;
-  }
-
-  .hero-sub {
-    font-size: 1.1rem;
-  }
-
-  .image-box {
-    width: 260px;
-    height: 350px;
+    padding: 0.6rem 0.9rem;
   }
 }
 
 /* Responsive switch: desktop shows header, mobile/tablet shows bottom nav */
 @media (min-width: 900px) {
   /* Desktop & large tablet in landscape */
-  .pc-header { display: flex !important; }     /* pastikan header tampil */
-  .bottom-nav { display: none !important; }     /* hide bottom nav on desktop */
+  .pc-header { display: flex !important; }     
+  .bottom-nav { display: none !important; }     
 }
 
 @media (max-width: 899px) {
   /* Phones and small tablets */
-  .pc-header { display: none !important; }      /* hide header on mobile/ipad */
-  .bottom-nav { display: flex !important; }     /* show bottom nav on mobile */
+  .pc-header { display: none !important; }      
+  .bottom-nav { display: flex !important; }     
 }

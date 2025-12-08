@@ -5,6 +5,7 @@ import cors from "cors";
 
 import cardsRoutes from "./routes/cardRoutes.js";
 import bossRoutes from "./routes/bossRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use("/api/cards", cardsRoutes);
 
 // prefix all boss routes with /api/bosses
 app.use("/api/bosses", bossRoutes);
+
+app.use("/api", profileRoutes);
 
 // health
 app.get("/api/health", (req, res) => res.json({ ok: true, ts: Date.now() }));

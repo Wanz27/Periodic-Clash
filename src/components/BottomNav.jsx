@@ -23,15 +23,7 @@ function IconCard({ className }) {
     </svg>
   );
 }
-function IconLearn({ className }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path d="M12 2v20" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-      <path d="M5 8h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-      <path d="M5 16h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-    </svg>
-  );
-}
+
 function IconGames({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -63,7 +55,6 @@ export default function BottomNav() {
   const items = [
     { id: "home", to: "/", label: "Home", Icon: IconHome },
     { id: "card", to: "/cards", label: "Card", Icon: IconCard },
-    { id: "learn", to: "/learn", label: "Learn", Icon: IconLearn },
     { id: "games", to: "/games", label: "Games", Icon: IconGames },
     { id: "about", to: "/about", label: "About", Icon: IconAbout },
   ];

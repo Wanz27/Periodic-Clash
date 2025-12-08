@@ -9,7 +9,6 @@ const paletteUrl = "/chemcat.jpg"; // atau '/mnt/data/9f985eae-5333-462e-a0e3-fe
 const navItems = [
   { id: "home", label: "Home", to: "/" },
   { id: "card", label: "Card", to: "/cards" },
-  { id: "learn", label: "Learn", to: "/learn" },
   { id: "games", label: "Games", to: "/games" },
   { id: "about", label: "About", to: "/about" },
 ];
