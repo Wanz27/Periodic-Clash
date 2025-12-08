@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import BossCard from "../components/BossCard";
 import PreparationModal from "../components/PreparationModal";
 import "../pages/games.css";
+import { supabase } from "../config/supabaseClient";
 
 export default function Games() {
   const [bosses, setBosses] = useState([]);
@@ -12,12 +13,18 @@ export default function Games() {
   async function loadBosses() {
     setLoading(true);
     try {
-      const resp = await fetch("/api/bosses");
-      if (!resp.ok) throw new Error("Failed to load bosses");
-      const data = await resp.json();
+      const { data, error } = await supabase
+        .from("bosses")
+        .select(
+          "id, slug, name, image_url, difficulty, hp, dmg, description, skills, powerups"
+        )
+        .order("created_at", { ascending: true }); // sesuaikan kalau kolomnya beda
+
+      if (error) throw error;
+
       setBosses(data || []);
     } catch (err) {
-      console.error(err);
+      console.error("Error load bosses:", err);
       setBosses([]);
     } finally {
       setLoading(false);
@@ -40,7 +47,10 @@ export default function Games() {
     <main className="games-page container">
       <header className="games-header">
         <h1>Boss Encounters</h1>
-        <p className="muted">Pilih boss untuk melihat strategi dan persiapan. Difficulty menunjukkan tingkat tantangan.</p>
+        <p className="muted">
+          Pilih boss untuk melihat strategi dan persiapan. Difficulty
+          menunjukkan tingkat tantangan.
+        </p>
       </header>
 
       <section className="boss-list" aria-label="List boss">
@@ -63,17 +73,19 @@ export default function Games() {
                 skills: b.skills || [],
                 powerups: b.powerups || [],
               }}
-              onPrepare={( ) => openPrep({
-                id: b.slug || b.id,
-                name: b.name,
-                image: b.image_url,
-                difficulty: b.difficulty,
-                hp: b.hp,
-                dmg: b.dmg,
-                description: b.description,
-                skills: b.skills || [],
-                powerups: b.powerups || []
-              })}
+              onPrepare={() =>
+                openPrep({
+                  id: b.slug || b.id,
+                  name: b.name,
+                  image: b.image_url,
+                  difficulty: b.difficulty,
+                  hp: b.hp,
+                  dmg: b.dmg,
+                  description: b.description,
+                  skills: b.skills || [],
+                  powerups: b.powerups || [],
+                })
+              }
             />
           ))
         )}
