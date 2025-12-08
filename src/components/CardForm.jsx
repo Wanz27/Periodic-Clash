@@ -168,7 +168,6 @@ export default function CardForm({ initial = {}, onClose = () => { }, onSaved = 
     toast.info("Power-up dihapus.");
   }
 
-  // submit -> send to backend as FormData (handles both create & update)
   // submit -> langsung ke Supabase (Storage + Table)
   async function handleSubmit(e) {
     e.preventDefault();
@@ -176,84 +175,87 @@ export default function CardForm({ initial = {}, onClose = () => { }, onSaved = 
     toast.info("Menyimpan kartu...");
 
     try {
-      // 1. Upload gambar kalau ada file baru
+      // 1. Upload gambar ke Supabase Storage (bucket: card-images)
       let imageUrl = form.image_url || "";
 
       if (form.image_file) {
         const file = form.image_file;
         const ext = file.name.split(".").pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-        const filePath = `cards/${fileName}`;
+        const randomPart =
+          (window.crypto && crypto.randomUUID && crypto.randomUUID()) ||
+          `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+        const fileName = `${randomPart}.${ext}`;
+        const filePath = fileName; // kalau mau di-folder: `cards/${fileName}`
 
         const { error: uploadError } = await supabase
           .storage
-          .from("cards")      // NAMA BUCKET
+          .from("card-images") // ← sesuaikan dengan nama bucket-mu
           .upload(filePath, file, {
             cacheControl: "3600",
             upsert: false,
           });
 
-        if (uploadError) {
-          throw uploadError;
-        }
+        if (uploadError) throw uploadError;
 
-        const { data: publicUrlData } = supabase
+        const { data: publicData } = supabase
           .storage
-          .from("cards")
+          .from("card-images")
           .getPublicUrl(filePath);
 
-        imageUrl = publicUrlData.publicUrl;
+        imageUrl = publicData.publicUrl;
       }
 
-      // 2. Siapkan payload ke tabel "cards"
+      // (opsional) ambil user untuk isi kolom owner
+      let ownerId = null;
+      try {
+        const { data: userData } = await supabase.auth.getUser();
+        ownerId = userData?.user?.id || null;
+      } catch {
+        ownerId = null;
+      }
+
+      // 2. Payload sesuai struktur tabel "cards"
       const payload = {
+        owner: ownerId,
         name: form.name,
-        symbol: form.symbol,
-        rarity: form.rarity,
+        symbol: form.symbol || null,
+        rarity: form.rarity || null,
         health: Number(form.health) || 0,
         damage: Number(form.damage) || 0,
-        description: form.description || "",
         reactions: form.reactions || [],
         powerups: form.powerups || [],
+        description: form.description || null,
         image_url: imageUrl,
+        is_public: true,
       };
 
-      let data, error;
-
+      // 3. Insert / update ke Supabase
+      let res;
       if (form.id) {
-        // UPDATE kartu
-        const res = await supabase
+        res = await supabase
           .from("cards")
           .update(payload)
           .eq("id", form.id)
           .select()
           .single();
-
-        data = res.data;
-        error = res.error;
       } else {
-        // INSERT kartu baru
-        const res = await supabase
+        res = await supabase
           .from("cards")
           .insert(payload)
           .select()
           .single();
-
-        data = res.data;
-        error = res.error;
       }
 
-      if (error) {
-        throw error;
-      }
+      if (res.error) throw res.error;
 
       toast.success(form.id ? "Perubahan disimpan." : "Kartu ditambahkan.");
-      setUploading(false);
-      onSaved(data); // biar parent refresh katalog
+      onSaved(res.data); // biar parent refresh katalog
       onClose();
     } catch (err) {
       console.error(err);
       toast.error("Gagal menyimpan kartu: " + (err.message || err));
+    } finally {
       setUploading(false);
     }
   }
