@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BossCard from "../components/BossCard";
 import PreparationModal from "../components/PreparationModal";
 import "../pages/games.css";
-import { supabase } from "../config/supabaseClient";
+import { supabase } from "../config/supabaseClient"; // <-- pastikan ini ada
 
 export default function Games() {
   const [bosses, setBosses] = useState([]);
@@ -18,7 +18,7 @@ export default function Games() {
         .select(
           "id, slug, name, image_url, difficulty, hp, dmg, description, skills, powerups"
         )
-        .order("created_at", { ascending: true }); // sesuaikan kalau kolomnya beda
+        .order("created_at", { ascending: true });
 
       if (error) throw error;
 
@@ -48,8 +48,7 @@ export default function Games() {
       <header className="games-header">
         <h1>Boss Encounters</h1>
         <p className="muted">
-          Pilih boss untuk melihat strategi dan persiapan. Difficulty
-          menunjukkan tingkat tantangan.
+          Pilih boss untuk melihat strategi dan persiapan. Difficulty menunjukkan tingkat tantangan.
         </p>
       </header>
 
@@ -73,19 +72,7 @@ export default function Games() {
                 skills: b.skills || [],
                 powerups: b.powerups || [],
               }}
-              onPrepare={() =>
-                openPrep({
-                  id: b.slug || b.id,
-                  name: b.name,
-                  image: b.image_url,
-                  difficulty: b.difficulty,
-                  hp: b.hp,
-                  dmg: b.dmg,
-                  description: b.description,
-                  skills: b.skills || [],
-                  powerups: b.powerups || [],
-                })
-              }
+              onPrepare={() => openPrep(b)}
             />
           ))
         )}
