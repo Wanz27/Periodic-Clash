@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../components/CardForm.css"; // pastikan path & nama file css benar
 import { useToast } from "./ToastProvider";
+import { supabase } from "../config/supabaseClient";
 
 const PLACEHOLDER = "/mnt/data/1b828d6f-5c02-4e75-b892-1581eaf78ddb.png";
 
@@ -29,9 +30,9 @@ function computeResult(a, b) {
   return `${A}${B}`; // fallback naive
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
+// const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-export default function CardForm({ initial = {}, onClose = () => {}, onSaved = () => {} }) {
+export default function CardForm({ initial = {}, onClose = () => { }, onSaved = () => { } }) {
   const toast = useToast();
 
   const [form, setForm] = useState({
@@ -168,44 +169,87 @@ export default function CardForm({ initial = {}, onClose = () => {}, onSaved = (
   }
 
   // submit -> send to backend as FormData (handles both create & update)
+  // submit -> langsung ke Supabase (Storage + Table)
   async function handleSubmit(e) {
     e.preventDefault();
     setUploading(true);
     toast.info("Menyimpan kartu...");
 
     try {
-      const fd = new FormData();
-      fd.append("name", form.name);
-      fd.append("symbol", form.symbol);
-      fd.append("rarity", form.rarity);
-      fd.append("health", String(form.health));
-      fd.append("damage", String(form.damage));
-      fd.append("description", form.description || "");
-      fd.append("reactions", JSON.stringify(form.reactions || []));
-      fd.append("powerups", JSON.stringify(form.powerups || []));
+      // 1. Upload gambar kalau ada file baru
+      let imageUrl = form.image_url || "";
 
-      // include file if new
       if (form.image_file) {
-        fd.append("image", form.image_file, form.image_file.name);
+        const file = form.image_file;
+        const ext = file.name.split(".").pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+        const filePath = `cards/${fileName}`;
+
+        const { error: uploadError } = await supabase
+          .storage
+          .from("cards")      // NAMA BUCKET
+          .upload(filePath, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (uploadError) {
+          throw uploadError;
+        }
+
+        const { data: publicUrlData } = supabase
+          .storage
+          .from("cards")
+          .getPublicUrl(filePath);
+
+        imageUrl = publicUrlData.publicUrl;
       }
 
-      const opts = {
-        method: form.id ? "PUT" : "POST",
-        body: fd,
+      // 2. Siapkan payload ke tabel "cards"
+      const payload = {
+        name: form.name,
+        symbol: form.symbol,
+        rarity: form.rarity,
+        health: Number(form.health) || 0,
+        damage: Number(form.damage) || 0,
+        description: form.description || "",
+        reactions: form.reactions || [],
+        powerups: form.powerups || [],
+        image_url: imageUrl,
       };
 
-      const url = form.id ? `${API_BASE}/api/cards/${form.id}` : `${API_BASE}/api/cards`;
-      const res = await fetch(url, opts);
-      const data = await res.json();
+      let data, error;
 
-      if (!res.ok) {
-        const msg = data?.error || data?.message || JSON.stringify(data);
-        throw new Error(msg);
+      if (form.id) {
+        // UPDATE kartu
+        const res = await supabase
+          .from("cards")
+          .update(payload)
+          .eq("id", form.id)
+          .select()
+          .single();
+
+        data = res.data;
+        error = res.error;
+      } else {
+        // INSERT kartu baru
+        const res = await supabase
+          .from("cards")
+          .insert(payload)
+          .select()
+          .single();
+
+        data = res.data;
+        error = res.error;
+      }
+
+      if (error) {
+        throw error;
       }
 
       toast.success(form.id ? "Perubahan disimpan." : "Kartu ditambahkan.");
       setUploading(false);
-      onSaved(data); // parent bisa refresh daftar
+      onSaved(data); // biar parent refresh katalog
       onClose();
     } catch (err) {
       console.error(err);
